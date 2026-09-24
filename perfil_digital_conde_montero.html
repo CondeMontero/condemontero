@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conde Montero | Creador de Contenido</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#8B5CF6',
+                            cyan: '#06B6D4',
+                            pink: '#EC4899',
+                            dark: '#0F172A',
+                            darker: '#090D16',
+                            card: '#1E293B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 15px rgba(139, 92, 246, 0.4)' },
+                            '100%': { boxShadow: '0 0 25px rgba(6, 182, 212, 0.8)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #A855F7 0%, #06B6D4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #8B5CF6 0%, #06B6D4 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3B82F6;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+
+    <!-- Background Decorator Gradients -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-br from-purple-900/20 via-cyan-900/10 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 z-50 transform translate-y-[-150%] opacity-0 transition-all duration-300 flex items-center gap-3 bg-slate-900 text-slate-100 border border-emerald-500/50 px-4 py-3 rounded-xl shadow-2xl backdrop-blur-md">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toast-message" class="text-sm font-medium">Enlace copiado al portapapeles</span>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-3xl mx-auto px-4 py-8 sm:px-6 sm:py-12 flex flex-col gap-8">
+
+        <!-- Top Navigation Bar / Actions -->
+        <header class="flex justify-between items-center w-full">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs font-medium text-slate-300 backdrop-blur-sm">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Guatemala 🇬🇹</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="theme-toggle" onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-white hover:border-purple-500/50 transition-all shadow-md">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+                <button onclick="copyProfileLink()" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-xs font-semibold text-slate-200 hover:border-cyan-500/50 hover:text-cyan-400 transition-all shadow-md">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span class="hidden sm:inline">Compartir</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="flex flex-col items-center text-center gap-4">
+            <div class="relative group">
+                <div class="absolute -inset-1 rounded-full gradient-bg opacity-75 blur group-hover:opacity-100 transition duration-500 animate-glow"></div>
+                <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1 bg-slate-900 overflow-hidden">
+                    <img src="https://yt3.googleusercontent.com/ytc/AIdro_kX4pQzY11xN9Z-3pB2n-1x0N3R3=s900-c-k-c0x00ffffff-no-rj" 
+                         onerror="this.src='https://placehold.co/200x200/8B5CF6/ffffff?text=Conde+Montero'" 
+                         alt="Conde Montero Profile" 
+                         class="w-full h-full object-cover rounded-full group-hover:scale-105 transition duration-300">
+                </div>
+                <div class="absolute bottom-1 right-1 bg-red-600 text-white p-1.5 rounded-full border-2 border-slate-950 flex items-center justify-center text-xs shadow-lg">
+                    <i class="fa-brands fa-youtube"></i>
+                </div>
+            </div>
+
+            <div class="space-y-1 max-w-lg">
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center justify-center gap-2">
+                    Conde Montero
+                    <i class="fa-solid fa-circle-check text-cyan-400 text-lg" title="Verificado"></i>
+                </h1>
+                <p class="text-sm font-semibold text-purple-400">@CondeMontero</p>
+                <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                    Creador de contenido | Humor, Comedia & Entretenimiento 🎬 
+                    <br class="hidden sm:inline"/>Haciendo reír a toda la comunidad. ¡Bienvenido a mi canal!
+                </p>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-md mt-2">
+                <div class="flex flex-col items-center p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-md">
+                    <span class="text-base sm:text-lg font-bold text-slate-100">YouTube</span>
+                    <span class="text-xs text-slate-400 font-medium flex items-center gap-1">
+                        <i class="fa-brands fa-youtube text-red-500"></i> Oficial
+                    </span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-md">
+                    <span class="text-base sm:text-lg font-bold text-slate-100">+50K</span>
+                    <span class="text-xs text-slate-400 font-medium">Suscriptores</span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-md">
+                    <span class="text-base sm:text-lg font-bold text-slate-100">Comedy</span>
+                    <span class="text-xs text-slate-400 font-medium">Contenido</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Featured Video Embed Section -->
+        <section class="space-y-3">
+            <div class="flex items-center justify-between">
+                <h2 class="text-base font-bold text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-fire text-amber-400 animate-pulse"></i>
+                    Video Destacado
+                </h2>
+                <span class="text-xs text-purple-400 font-medium">Último lanzamiento</span>
+            </div>
+
+            <div class="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl group">
+                <div class="aspect-video w-full bg-slate-900 relative">
+                    <iframe 
+                        id="featured-player"
+                        class="w-full h-full" 
+                        src="https://www.youtube.com/embed/videoseries?list=PL3a0m1-S4m00Yx-7pGg-N1tH3G-pT5G" 
+                        title="Conde Montero YouTube Featured Video" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="p-4 bg-slate-900/90 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div>
+                        <h3 class="font-semibold text-slate-100 text-sm sm:text-base">¡El mejor contenido de comedia y entretenimiento!</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Mira los mejores videos directamente aquí o abre en YouTube.</p>
+                    </div>
+                    <a href="https://www.youtube.com/@CondeMontero?sub_confirmation=1" target="_blank" rel="noopener font-medium" 
+                       class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-lg whitespace-nowrap">
+                        <i class="fa-brands fa-youtube"></i>
+                        Suscribirse
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Links Buttons (Linktree Style) -->
+        <section class="space-y-3">
+            <h2 class="text-base font-bold text-slate-200 flex items-center gap-2">
+                <i class="fa-solid fa-compass text-cyan-400"></i>
+                Enlaces Rápidos
+            </h2>
+
+            <div class="flex flex-col gap-3">
+                <!-- Channel Link -->
+                <a href="https://www.youtube.com/@CondeMontero" target="_blank" rel="noopener" 
+                   class="group relative flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-slate-900/80 border border-slate-800 hover:border-red-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/10">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-500 text-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-brands fa-youtube"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-slate-100 text-sm group-hover:text-red-400 transition-colors">Canal Principal de YouTube</p>
+                            <p class="text-xs text-slate-400">Suscríbete y no te pierdas ningún video</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-slate-500 text-xs group-hover:text-slate-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+                </a>
+
+                <!-- Shorts Link -->
+                <a href="https://www.youtube.com/@CondeMontero/shorts" target="_blank" rel="noopener" 
+                   class="group relative flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-slate-900/80 border border-slate-800 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-slate-100 text-sm group-hover:text-purple-400 transition-colors">YouTube Shorts Populares</p>
+                            <p class="text-xs text-slate-400">Videos cortos, risas aseguradas</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-slate-500 text-xs group-hover:text-slate-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+                </a>
+
+                <!-- Business Contact Modal Trigger -->
+                <button onclick="openBusinessModal()" 
+                        class="group relative flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-all duration-300 text-left hover:shadow-lg hover:shadow-cyan-500/10">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-slate-100 text-sm group-hover:text-cyan-400 transition-colors">Contacto de Negocios / Marcas</p>
+                            <p class="text-xs text-slate-400">Patrocinios y eventos colaborativos</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 text-[10px] font-bold tracking-wider uppercase">Contactar</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Social Media Grid Bar -->
+        <section class="space-y-3">
+            <h2 class="text-base font-bold text-slate-200 flex items-center gap-2">
+                <i class="fa-solid fa-share-nodes text-pink-400"></i>
+                Redes Sociales
+            </h2>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <a href="https://www.tiktok.com" target="_blank" rel="noopener" 
+                   class="flex items-center gap-3 p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 transition-all group">
+                    <i class="fa-brands fa-tiktok text-xl text-slate-200 group-hover:scale-110 transition-transform"></i>
+                    <div class="overflow-hidden">
+                        <p class="text-xs font-semibold text-slate-200">TikTok</p>
+                        <p class="text-[10px] text-slate-400 truncate">@CondeMontero</p>
+                    </div>
+                </a>
+
+                <a href="https://www.instagram.com" target="_blank" rel="noopener" 
+                   class="flex items-center gap-3 p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-pink-500/50 transition-all group">
+                    <i class="fa-brands fa-instagram text-xl text-pink-400 group-hover:scale-110 transition-transform"></i>
+                    <div class="overflow-hidden">
+                        <p class="text-xs font-semibold text-slate-200">Instagram</p>
+                        <p class="text-[10px] text-slate-400 truncate">@CondeMontero</p>
+                    </div>
+                </a>
+
+                <a href="https://www.facebook.com" target="_blank" rel="noopener" 
+                   class="flex items-center gap-3 p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500/50 transition-all group">
+                    <i class="fa-brands fa-facebook text-xl text-blue-500 group-hover:scale-110 transition-transform"></i>
+                    <div class="overflow-hidden">
+                        <p class="text-xs font-semibold text-slate-200">Facebook</p>
+                        <p class="text-[10px] text-slate-400 truncate">Conde Montero</p>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/@CondeMontero" target="_blank" rel="noopener" 
+                   class="flex items-center gap-3 p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-red-500/50 transition-all group">
+                    <i class="fa-brands fa-youtube text-xl text-red-500 group-hover:scale-110 transition-transform"></i>
+                    <div class="overflow-hidden">
+                        <p class="text-xs font-semibold text-slate-200">YouTube</p>
+                        <p class="text-[10px] text-slate-400 truncate">Oficial</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Featured Content Showcase Gallery -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-base font-bold text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-clapperboard text-purple-400"></i>
+                    Galería de Contenido
+                </h2>
+                <!-- Filter Tabs -->
+                <div class="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
+                    <button onclick="filterContent('all')" id="tab-all" class="px-2.5 py-1 rounded-lg bg-purple-600 text-white font-medium transition-all">Todos</button>
+                    <button onclick="filterContent('shorts')" id="tab-shorts" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white font-medium transition-all">Shorts</button>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div id="content-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <!-- Video Card 1 -->
+                <div class="content-card category-all bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 hover:border-purple-500/40 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="relative aspect-video overflow-hidden bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80" alt="Video thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-black/80 text-[10px] font-semibold text-white">08:42</span>
+                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                <a href="https://www.youtube.com/@CondeMontero" target="_blank" class="w-12 h-12 rounded-full bg-purple-600/90 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-3.5 space-y-2">
+                            <div class="flex gap-1.5 flex-wrap">
+                                <span class="px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 text-[10px] font-semibold">#Comedia</span>
+                                <span class="px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 text-[10px] font-semibold">#Guatemala</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-100 text-sm line-clamp-2">Situaciones cotidianas en Guatemala parte 1</h3>
+                        </div>
+                    </div>
+                    <div class="px-3.5 pb-3 pt-0 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-800/50 mt-2">
+                        <span><i class="fa-solid fa-eye mr-1"></i>24K vistas</span>
+                        <a href="https://www.youtube.com/@CondeMontero" target="_blank" class="text-purple-400 font-semibold hover:underline flex items-center gap-1">Ver <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+                    </div>
+                </div>
+
+                <!-- Video Card 2 (Short) -->
+                <div class="content-card category-shorts bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 hover:border-pink-500/40 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="relative aspect-video sm:aspect-video overflow-hidden bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80" alt="Short thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-pink-600 text-[10px] font-bold text-white flex items-center gap-1">
+                                <i class="fa-solid fa-bolt"></i> Short
+                            </span>
+                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                <a href="https://www.youtube.com/@CondeMontero/shorts" target="_blank" class="w-12 h-12 rounded-full bg-pink-600/90 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-3.5 space-y-2">
+                            <div class="flex gap-1.5 flex-wrap">
+                                <span class="px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-400 text-[10px] font-semibold">#Humor</span>
+                                <span class="px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 text-[10px] font-semibold">#Shorts</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-100 text-sm line-clamp-2">Cuando intentas explicar algo rápido en Chapín 😅</h3>
+                        </div>
+                    </div>
+                    <div class="px-3.5 pb-3 pt-0 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-800/50 mt-2">
+                        <span><i class="fa-solid fa-eye mr-1"></i>85K vistas</span>
+                        <a href="https://www.youtube.com/@CondeMontero/shorts" target="_blank" class="text-pink-400 font-semibold hover:underline flex items-center gap-1">Ver Short <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Interactive Fan Feedback / Message Box -->
+        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-base font-bold text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-comments text-cyan-400"></i>
+                    Muro de Fans & Mensajes
+                </h2>
+                <span class="text-xs text-slate-400">¿Qué opinas del canal?</span>
+            </div>
+
+            <form id="fan-form" onsubmit="submitComment(event)" class="space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input type="text" id="fan-name" required placeholder="Tu Nombre o User" 
+                           class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500 transition">
+                    <select id="fan-topic" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 focus:outline-none focus:border-purple-500 transition">
+                        <option value="❤️ Fan de Guatemala">❤️ Fan de Guatemala</option>
+                        <option value="🎬 Idea para video">🎬 Idea para video</option>
+                        <option value="🔥 Saludo">🔥 Saludos generales</option>
+                    </select>
+                </div>
+                <textarea id="fan-message" required rows="2" placeholder="Escribe un mensaje o sugerencia de video para Conde Montero..." 
+                          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500 transition resize-none"></textarea>
+                <button type="submit" class="w-full py-2.5 rounded-xl gradient-bg text-white font-semibold text-xs hover:opacity-90 transition shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Enviar Mensaje
+                </button>
+            </form>
+
+            <!-- Comments Preview List -->
+            <div class="mt-4 pt-3 border-t border-slate-800 space-y-3" id="comments-container">
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 space-y-1">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-semibold text-purple-400">@CarlosGuate</span>
+                        <span class="text-[10px] text-slate-500">Hace 2 horas</span>
+                    </div>
+                    <p class="text-xs text-slate-300">¡Sigue así bro, el mejor contenido de comedia en Guate! 🔥🇬🇹</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center pt-4 pb-6 border-t border-slate-800/60 space-y-2">
+            <p class="text-xs text-slate-400">
+                © <span id="year">2026</span> <span class="font-semibold text-slate-200">Conde Montero</span>. Todos los derechos reservados.
+            </p>
+            <p class="text-[11px] text-slate-500">
+                Página de perfil oficial para <a href="https://www.youtube.com/@CondeMontero" target="_blank" class="text-purple-400 hover:underline">@CondeMontero</a>
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- Business Contact Modal -->
+    <div id="business-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative transform transition-all">
+            <button onclick="closeBusinessModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-base">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-100 text-base">Contacto Comercial</h3>
+                    <p class="text-xs text-slate-400">Propuestas y patrocinios</p>
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Si deseas colaborar, promocionar tu marca o contratar presentaciones de **Conde Montero**, ponte en contacto directo a través de nuestras redes oficiales o canal de YouTube.
+            </p>
+
+            <div class="space-y-2.5 pt-2">
+                <a href="https://www.youtube.com/@CondeMontero/about" target="_blank" rel="noopener" 
+                   class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold text-slate-200 hover:border-purple-500/50 transition">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-brands fa-youtube text-red-500"></i> Mensaje en YouTube
+                    </span>
+                    <i class="fa-solid fa-arrow-right text-slate-500 text-xs"></i>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" rel="noopener" 
+                   class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold text-slate-200 hover:border-pink-500/50 transition">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-brands fa-instagram text-pink-500"></i> DM en Instagram
+                    </span>
+                    <i class="fa-solid fa-arrow-right text-slate-500 text-xs"></i>
+                </a>
+            </div>
+
+            <button onclick="closeBusinessModal()" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 transition">
+                Cerrar Ventana
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        // Set dynamic copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Theme Toggle Functionality
+        let isDark = true;
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            
+            if (isDark) {
+                body.classList.remove('bg-slate-950', 'text-slate-100', 'dark');
+                body.classList.add('bg-slate-50', 'text-slate-800');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun', 'text-amber-500');
+                isDark = false;
+            } else {
+                body.classList.remove('bg-slate-50', 'text-slate-800');
+                body.classList.add('bg-slate-950', 'text-slate-100', 'dark');
+                icon.classList.remove('fa-sun', 'text-amber-500');
+                icon.classList.add('fa-moon');
+                isDark = true;
+            }
+        }
+
+        // Toast Notification System
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+            
+            toast.classList.remove('translate-y-[-150%]', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-[-150%]', 'opacity-0');
+            }, 3000);
+        }
+
+        // Copy Link to Clipboard
+        function copyProfileLink() {
+            const tempInput = document.createElement('input');
+            tempInput.value = window.location.href;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            
+            showToast('¡Enlace de perfil copiado al portapapeles!');
+        }
+
+        // Business Modal Controls
+        function openBusinessModal() {
+            document.getElementById('business-modal').classList.remove('hidden');
+        }
+
+        function closeBusinessModal() {
+            document.getElementById('business-modal').classList.add('hidden');
+        }
+
+        // Content Filter Tabs
+        function filterContent(type) {
+            const cards = document.querySelectorAll('.content-card');
+            const tabAll = document.getElementById('tab-all');
+            const tabShorts = document.getElementById('tab-shorts');
+
+            if (type === 'all') {
+                cards.forEach(card => card.classList.remove('hidden'));
+                tabAll.className = "px-2.5 py-1 rounded-lg bg-purple-600 text-white font-medium transition-all";
+                tabShorts.className = "px-2.5 py-1 rounded-lg text-slate-400 hover:text-white font-medium transition-all";
+            } else if (type === 'shorts') {
+                cards.forEach(card => {
+                    if (card.classList.contains('category-shorts')) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+                tabShorts.className = "px-2.5 py-1 rounded-lg bg-pink-600 text-white font-medium transition-all";
+                tabAll.className = "px-2.5 py-1 rounded-lg text-slate-400 hover:text-white font-medium transition-all";
+            }
+        }
+
+        // Fan Message Submission
+        function submitComment(event) {
+            event.preventDefault();
+            const name = document.getElementById('fan-name').value;
+            const topic = document.getElementById('fan-topic').value;
+            const message = document.getElementById('fan-message').value;
+
+            const container = document.getElementById('comments-container');
+            const newComment = document.createElement('div');
+            newComment.className = "bg-slate-950/60 p-3 rounded-xl border border-purple-500/30 space-y-1 animate-pulse-slow";
+            newComment.innerHTML = `
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-semibold text-cyan-400">${escapeHTML(name)} <span class="text-[10px] text-slate-400 font-normal">(${escapeHTML(topic)})</span></span>
+                    <span class="text-[10px] text-slate-500">Justo ahora</span>
+                </div>
+                <p class="text-xs text-slate-300">${escapeHTML(message)}</p>
+            `;
+
+            container.prepend(newComment);
+            document.getElementById('fan-form').reset();
+            showToast('¡Gracias por tu mensaje para Conde Montero!');
+        }
+
+        // Simple HTML Sanitizer
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
